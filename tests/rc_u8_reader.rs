@@ -7,9 +7,9 @@ use rc_u8_reader::RcU8Reader;
 
 #[test]
 fn to_string() {
-    let data = b"Hello world!".to_vec();
+    let data: Rc<str> = "Hello world!".into();
 
-    let mut reader = RcU8Reader::new(Rc::new(data));
+    let mut reader = RcU8Reader::new(data);
 
     let mut result = String::new();
 

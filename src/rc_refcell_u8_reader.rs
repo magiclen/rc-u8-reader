@@ -4,12 +4,12 @@ use std::io::{self, ErrorKind, Read, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
 use std::io::{IoSliceMut, Initializer};
 
-pub struct RcRefCellU8Reader<T: AsRef<[u8]>> {
+pub struct RcRefCellU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<RefCell<T>>,
     pos: usize,
 }
 
-impl<T: AsRef<[u8]>> RcRefCellU8Reader<T> {
+impl<T: AsRef<[u8]> + ?Sized> RcRefCellU8Reader<T> {
     #[inline]
     pub fn new(data: Rc<RefCell<T>>) -> RcRefCellU8Reader<T> {
         RcRefCellU8Reader {
@@ -19,7 +19,7 @@ impl<T: AsRef<[u8]>> RcRefCellU8Reader<T> {
     }
 }
 
-impl<T: AsRef<[u8]>> Read for RcRefCellU8Reader<T> {
+impl<T: AsRef<[u8]> + ?Sized> Read for RcRefCellU8Reader<T> {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize, io::Error> {
         let data: Ref<T> = (*self.data).borrow();
         let data: &[u8] = &data.as_ref()[self.pos..];
@@ -65,7 +65,7 @@ impl<T: AsRef<[u8]>> Read for RcRefCellU8Reader<T> {
     }
 }
 
-impl<T: AsRef<[u8]>> Seek for RcRefCellU8Reader<T> {
+impl<T: AsRef<[u8]> + ?Sized> Seek for RcRefCellU8Reader<T> {
     fn seek(&mut self, style: SeekFrom) -> Result<u64, io::Error> {
         let (base_pos, offset) = match style {
             SeekFrom::Start(n) => {

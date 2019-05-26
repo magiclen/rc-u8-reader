@@ -4,12 +4,12 @@ use std::io::{self, ErrorKind, Read, BufRead, Seek, SeekFrom};
 use std::io::{IoSliceMut, Initializer};
 use std::cmp;
 
-pub struct RcU8Reader<T: AsRef<[u8]>> {
+pub struct RcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<T>,
     pos: usize,
 }
 
-impl<T: AsRef<[u8]>> RcU8Reader<T> {
+impl<T: AsRef<[u8]> + ?Sized> RcU8Reader<T> {
     #[inline]
     pub fn new(data: Rc<T>) -> RcU8Reader<T> {
         RcU8Reader {
@@ -19,7 +19,7 @@ impl<T: AsRef<[u8]>> RcU8Reader<T> {
     }
 }
 
-impl<T: AsRef<[u8]>> BufRead for RcU8Reader<T> {
+impl<T: AsRef<[u8]> + ?Sized> BufRead for RcU8Reader<T> {
     #[inline]
     fn fill_buf(&mut self) -> Result<&[u8], io::Error> {
         let data = (*self.data).as_ref();
@@ -35,7 +35,7 @@ impl<T: AsRef<[u8]>> BufRead for RcU8Reader<T> {
     }
 }
 
-impl<T: AsRef<[u8]>> Read for RcU8Reader<T> {
+impl<T: AsRef<[u8]> + ?Sized> Read for RcU8Reader<T> {
     #[inline]
     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
         let n = Read::read(&mut self.fill_buf()?, buf)?;
@@ -77,7 +77,7 @@ impl<T: AsRef<[u8]>> Read for RcU8Reader<T> {
     }
 }
 
-impl<T: AsRef<[u8]>> Seek for RcU8Reader<T> {
+impl<T: AsRef<[u8]> + ?Sized> Seek for RcU8Reader<T> {
     fn seek(&mut self, style: SeekFrom) -> Result<u64, io::Error> {
         let (base_pos, offset) = match style {
             SeekFrom::Start(n) => {
