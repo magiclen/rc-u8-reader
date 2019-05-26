@@ -49,7 +49,7 @@ assert_eq!("Hello world!".to_string(), result);
 ```
 */
 
-#![cfg_attr(feature = "nightly", feature(read_initializer, seek_convenience))]
+#![cfg_attr(feature = "nightly", allow(stable_features), feature(read_initializer, seek_convenience, iovec))]
 
 mod rc_u8_reader;
 mod rc_refcell_u8_reader;

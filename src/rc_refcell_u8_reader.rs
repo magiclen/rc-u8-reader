@@ -1,8 +1,8 @@
 use std::cell::{Ref, RefCell};
 use std::rc::Rc;
-use std::io::{self, ErrorKind, Read, Seek, SeekFrom, IoSliceMut};
+use std::io::{self, ErrorKind, Read, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
-use std::io::Initializer;
+use std::io::{IoSliceMut, Initializer};
 
 pub struct RcRefCellU8Reader<T: AsRef<[u8]>> {
     data: Rc<RefCell<T>>,
@@ -44,6 +44,7 @@ impl<T: AsRef<[u8]>> Read for RcRefCellU8Reader<T> {
         Ok(len)
     }
 
+    #[cfg(feature = "nightly")]
     #[inline]
     fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> io::Result<usize> {
         let mut nread = 0;

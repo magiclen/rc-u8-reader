@@ -1,7 +1,7 @@
 use std::rc::Rc;
-use std::io::{self, ErrorKind, Read, BufRead, Seek, SeekFrom, IoSliceMut};
+use std::io::{self, ErrorKind, Read, BufRead, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
-use std::io::Initializer;
+use std::io::{IoSliceMut, Initializer};
 use std::cmp;
 
 pub struct RcU8Reader<T: AsRef<[u8]>> {
@@ -45,6 +45,7 @@ impl<T: AsRef<[u8]>> Read for RcU8Reader<T> {
         Ok(n)
     }
 
+    #[cfg(feature = "nightly")]
     #[inline]
     fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> io::Result<usize> {
         let mut nread = 0;
