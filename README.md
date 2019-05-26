@@ -2,7 +2,7 @@ Rc U8 Reader
 ====================
 
 [![Build Status](https://travis-ci.org/magiclen/rc-u8-reader.svg?branch=master)](https://travis-ci.org/magiclen/rc-u8-reader)
-[![Build status](https://ci.appveyor.com/api/projects/status/4pahg84urfpyls8a/branch/master?svg=true)](https://ci.appveyor.com/project/magiclen/rc-u8-reader/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/fkbnt5b91x6mektp/branch/master?svg=true)](https://ci.appveyor.com/project/magiclen/rc-u8-reader/branch/master)
 
 A tiny implement for reading `u8` data from a reference counted instance.
 
