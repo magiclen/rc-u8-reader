@@ -4,6 +4,7 @@ use std::io::{self, ErrorKind, Read, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
 use std::io::{IoSliceMut, Initializer};
 
+#[derive(Debug)]
 pub struct RcRefCellU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<RefCell<T>>,
     pos: usize,

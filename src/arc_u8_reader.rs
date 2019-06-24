@@ -4,6 +4,7 @@ use std::io::{self, ErrorKind, Read, BufRead, Seek, SeekFrom};
 use std::io::{IoSliceMut, Initializer};
 use std::cmp;
 
+#[derive(Debug)]
 pub struct ArcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Arc<T>,
     pos: usize,
