@@ -2,11 +2,26 @@ use std::sync::{Arc, Mutex};
 use std::io::{self, ErrorKind, Read, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
 use std::io::{IoSliceMut, Initializer};
+use std::fmt::{self, Formatter, Debug};
 
-#[derive(Debug)]
 pub struct ArcMutexU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Arc<Mutex<T>>,
     pos: usize,
+}
+
+impl<T: AsRef<[u8]> + ?Sized> Debug for ArcMutexU8Reader<T> {
+    #[inline]
+    fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
+        if f.alternate() {
+            let debug_text = format!("ArcMutexU8Reader {{\n    data: {:#?},\n    pos: {}\n}}", self.data.as_ref().lock().unwrap().as_ref(), self.pos);
+
+            f.pad(&debug_text)
+        } else {
+            let debug_text = format!("ArcMutexU8Reader {{ data: {:?}, pos: {} }}", self.data.as_ref().lock().unwrap().as_ref(), self.pos);
+
+            f.pad(&debug_text)
+        }
+    }
 }
 
 impl<T: AsRef<[u8]> + ?Sized> ArcMutexU8Reader<T> {

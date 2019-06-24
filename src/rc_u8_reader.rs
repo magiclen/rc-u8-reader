@@ -3,11 +3,26 @@ use std::io::{self, ErrorKind, Read, BufRead, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
 use std::io::{IoSliceMut, Initializer};
 use std::cmp;
+use std::fmt::{self, Formatter, Debug};
 
-#[derive(Debug)]
 pub struct RcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<T>,
     pos: usize,
+}
+
+impl<T: AsRef<[u8]> + ?Sized> Debug for RcU8Reader<T> {
+    #[inline]
+    fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
+        if f.alternate() {
+            let debug_text = format!("RcU8Reader {{\n    data: {:#?},\n    pos: {}\n}}", self.data.as_ref().as_ref(), self.pos);
+
+            f.pad(&debug_text)
+        } else {
+            let debug_text = format!("RcU8Reader {{ data: {:?}, pos: {} }}", self.data.as_ref().as_ref(), self.pos);
+
+            f.pad(&debug_text)
+        }
+    }
 }
 
 impl<T: AsRef<[u8]> + ?Sized> RcU8Reader<T> {

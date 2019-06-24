@@ -3,11 +3,26 @@ use std::rc::Rc;
 use std::io::{self, ErrorKind, Read, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
 use std::io::{IoSliceMut, Initializer};
+use std::fmt::{self, Formatter, Debug};
 
-#[derive(Debug)]
 pub struct RcRefCellU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<RefCell<T>>,
     pos: usize,
+}
+
+impl<T: AsRef<[u8]> + ?Sized> Debug for RcRefCellU8Reader<T> {
+    #[inline]
+    fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
+        if f.alternate() {
+            let debug_text = format!("RcRefCellU8Reader {{\n    data: {:#?},\n    pos: {}\n}}", self.data.as_ref().borrow().as_ref(), self.pos);
+
+            f.pad(&debug_text)
+        } else {
+            let debug_text = format!("RcRefCellU8Reader {{ data: {:?}, pos: {} }}", self.data.as_ref().borrow().as_ref(), self.pos);
+
+            f.pad(&debug_text)
+        }
+    }
 }
 
 impl<T: AsRef<[u8]> + ?Sized> RcRefCellU8Reader<T> {
