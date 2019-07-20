@@ -18,7 +18,7 @@ impl<T: AsRef<[u8]> + ?Sized> Debug for ArcMutexU8Reader<T> {
             format!("{:?}", self.data.as_ref().lock().unwrap().as_ref())
         };
 
-        impl_debug_for_struct!(RcU8Reader, f, self, (.data, "{}", data), .pos);
+        impl_debug_for_struct!(ArcMutexU8Reader, f, self, (.data, "{}", data), .pos);
     }
 }
 

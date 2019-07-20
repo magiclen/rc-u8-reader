@@ -19,7 +19,7 @@ impl<T: AsRef<[u8]> + ?Sized> Debug for RcRefCellU8Reader<T> {
             format!("{:?}", self.data.as_ref().borrow().as_ref())
         };
 
-        impl_debug_for_struct!(RcU8Reader, f, self, (.data, "{}", data), .pos);
+        impl_debug_for_struct!(RcRefCellU8Reader, f, self, (.data, "{}", data), .pos);
     }
 }
 
