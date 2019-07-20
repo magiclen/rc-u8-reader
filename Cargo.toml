@@ -1,6 +1,6 @@
 [package]
 name = "rc-u8-reader"
-version = "2.0.5"
+version = "2.0.6"
 authors = ["Magic Len <len@magiclen.org>"]
 repository = "https://github.com/magiclen/rc-u8-reader"
 homepage = "https://magiclen.org/rc-u8-reader"
@@ -15,7 +15,7 @@ travis-ci = { repository = "magiclen/rc-u8-reader", branch = "master" }
 appveyor = { repository = "magiclen/rc-u8-reader", branch = "master", service = "github" }
 
 [dependencies]
-debug-helper = "0.1"
+debug-helper = "0.2"
 
 [features]
 nightly = []
