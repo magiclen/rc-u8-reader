@@ -12,15 +12,13 @@ pub struct ArcMutexU8Reader<T: AsRef<[u8]> + ?Sized> {
 impl<T: AsRef<[u8]> + ?Sized> Debug for ArcMutexU8Reader<T> {
     #[inline]
     fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
-        if f.alternate() {
-            let debug_text = format!("ArcMutexU8Reader {{\n    data: {:#?},\n    pos: {}\n}}", self.data.as_ref().lock().unwrap().as_ref(), self.pos);
-
-            f.pad(&debug_text)
+        let data = if f.alternate() {
+            format!("{:#?}", self.data.as_ref().lock().unwrap().as_ref())
         } else {
-            let debug_text = format!("ArcMutexU8Reader {{ data: {:?}, pos: {} }}", self.data.as_ref().lock().unwrap().as_ref(), self.pos);
+            format!("{:?}", self.data.as_ref().lock().unwrap().as_ref())
+        };
 
-            f.pad(&debug_text)
-        }
+        impl_debug_for_struct!(RcU8Reader, f, self, (.data, "{}", data), .pos);
     }
 }
 

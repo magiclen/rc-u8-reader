@@ -13,15 +13,13 @@ pub struct RcU8Reader<T: AsRef<[u8]> + ?Sized> {
 impl<T: AsRef<[u8]> + ?Sized> Debug for RcU8Reader<T> {
     #[inline]
     fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
-        if f.alternate() {
-            let debug_text = format!("RcU8Reader {{\n    data: {:#?},\n    pos: {}\n}}", self.data.as_ref().as_ref(), self.pos);
-
-            f.pad(&debug_text)
+        let data = if f.alternate() {
+            format!("{:#?}", self.data.as_ref().as_ref())
         } else {
-            let debug_text = format!("RcU8Reader {{ data: {:?}, pos: {} }}", self.data.as_ref().as_ref(), self.pos);
+            format!("{:?}", self.data.as_ref().as_ref())
+        };
 
-            f.pad(&debug_text)
-        }
+        impl_debug_for_struct!(RcU8Reader, f, self, (.data, "{}", data), .pos);
     }
 }
 

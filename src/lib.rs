@@ -93,6 +93,9 @@ assert_eq!("Hello world!".to_string(), result);
 
 #![cfg_attr(feature = "nightly", feature(read_initializer, seek_convenience))]
 
+#[macro_use]
+extern crate debug_helper;
+
 mod rc_u8_reader;
 mod rc_refcell_u8_reader;
 
