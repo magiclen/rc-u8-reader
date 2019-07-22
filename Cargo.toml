@@ -15,7 +15,7 @@ travis-ci = { repository = "magiclen/rc-u8-reader", branch = "master" }
 appveyor = { repository = "magiclen/rc-u8-reader", branch = "master", service = "github" }
 
 [dependencies]
-debug-helper = "0.2"
+debug-helper = "0.3"
 
 [features]
 nightly = []
