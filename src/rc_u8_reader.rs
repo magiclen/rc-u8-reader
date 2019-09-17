@@ -1,9 +1,9 @@
-use std::rc::Rc;
-use std::io::{self, ErrorKind, Read, BufRead, Seek, SeekFrom};
-#[cfg(feature = "nightly")]
-use std::io::{IoSliceMut, Initializer};
 use std::cmp;
-use std::fmt::{self, Formatter, Debug};
+use std::fmt::{self, Debug, Formatter};
+use std::io::{self, BufRead, ErrorKind, Read, Seek, SeekFrom};
+#[cfg(feature = "nightly")]
+use std::io::{Initializer, IoSliceMut};
+use std::rc::Rc;
 
 pub struct RcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<T>,
@@ -123,7 +123,12 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for RcU8Reader<T> {
 
                 Ok(self.pos as u64)
             }
-            None => Err(io::Error::new(ErrorKind::InvalidInput, "invalid seek to a negative or overflowing position"))
+            None => {
+                Err(io::Error::new(
+                    ErrorKind::InvalidInput,
+                    "invalid seek to a negative or overflowing position",
+                ))
+            }
         }
     }
 

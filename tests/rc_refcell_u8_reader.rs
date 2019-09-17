@@ -1,8 +1,8 @@
 extern crate rc_u8_reader;
 
 use std::cell::RefCell;
-use std::rc::Rc;
 use std::io::Read;
+use std::rc::Rc;
 
 use rc_u8_reader::RcRefCellU8Reader;
 

@@ -1,7 +1,7 @@
 extern crate rc_u8_reader;
 
-use std::sync::Arc;
 use std::io::Read;
+use std::sync::Arc;
 
 use rc_u8_reader::ArcU8Reader;
 

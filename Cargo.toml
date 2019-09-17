@@ -1,7 +1,8 @@
 [package]
 name = "rc-u8-reader"
-version = "2.0.9"
+version = "2.0.10"
 authors = ["Magic Len <len@magiclen.org>"]
+edition = "2018"
 repository = "https://github.com/magiclen/rc-u8-reader"
 homepage = "https://magiclen.org/rc-u8-reader"
 keywords = ["rc", "arc", "in-memory", "read", "u8"]

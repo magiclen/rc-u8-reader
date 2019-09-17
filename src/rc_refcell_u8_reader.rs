@@ -1,9 +1,9 @@
 use std::cell::{Ref, RefCell};
-use std::rc::Rc;
+use std::fmt::{self, Debug, Formatter};
 use std::io::{self, ErrorKind, Read, Seek, SeekFrom};
 #[cfg(feature = "nightly")]
-use std::io::{IoSliceMut, Initializer};
-use std::fmt::{self, Formatter, Debug};
+use std::io::{Initializer, IoSliceMut};
+use std::rc::Rc;
 
 pub struct RcRefCellU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<RefCell<T>>,
@@ -87,15 +87,17 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for RcRefCellU8Reader<T> {
 
                 return Ok(n as u64);
             }
-            SeekFrom::End(n) => (
-                {
-                    let data: Ref<T> = (*self.data).borrow();
-                    let data: &[u8] = &data.as_ref()[self.pos..];
+            SeekFrom::End(n) => {
+                (
+                    {
+                        let data: Ref<T> = (*self.data).borrow();
+                        let data: &[u8] = &data.as_ref()[self.pos..];
 
-                    data.len()
-                },
-                n
-            ),
+                        data.len()
+                    },
+                    n,
+                )
+            }
             SeekFrom::Current(n) => (self.pos, n),
         };
 
@@ -119,7 +121,12 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for RcRefCellU8Reader<T> {
 
                 Ok(self.pos as u64)
             }
-            None => Err(io::Error::new(ErrorKind::InvalidInput, "invalid seek to a negative or overflowing position"))
+            None => {
+                Err(io::Error::new(
+                    ErrorKind::InvalidInput,
+                    "invalid seek to a negative or overflowing position",
+                ))
+            }
         }
     }
 
