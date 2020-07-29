@@ -1,16 +1,16 @@
 [package]
 name = "rc-u8-reader"
-version = "2.0.11"
+version = "2.0.12"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/rc-u8-reader"
 homepage = "https://magiclen.org/rc-u8-reader"
 keywords = ["rc", "arc", "in-memory", "read", "u8"]
 categories = ["data-structures"]
-description= "A tiny implement for reading `u8` data from a reference counted instance."
+description = "A tiny implement for reading `u8` data from a reference counted instance."
 readme = "README.md"
 license = "MIT"
-include = ["src/**/*", "Cargo.toml"]
+include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
 
 [badges.travis-ci]
 repository = "magiclen/rc-u8-reader"
