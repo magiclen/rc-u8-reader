@@ -1,7 +1,7 @@
 Rc U8 Reader
 ====================
 
-[![Build Status](https://travis-ci.org/magiclen/rc-u8-reader.svg?branch=master)](https://travis-ci.org/magiclen/rc-u8-reader)
+[![CI](https://github.com/magiclen/rc-u8-reader/actions/workflows/ci.yml/badge.svg)](https://github.com/magiclen/rc-u8-reader/actions/workflows/ci.yml)
 
 A tiny implement for reading `u8` data from a reference counted instance.
 

@@ -1,6 +1,6 @@
 [package]
 name = "rc-u8-reader"
-version = "2.0.12"
+version = "2.0.13"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/rc-u8-reader"
@@ -11,10 +11,6 @@ description = "A tiny implement for reading `u8` data from a reference counted i
 readme = "README.md"
 license = "MIT"
 include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
-
-[badges.travis-ci]
-repository = "magiclen/rc-u8-reader"
-branch = "master"
 
 [dependencies]
 debug-helper = "0.3"
