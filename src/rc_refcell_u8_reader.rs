@@ -1,8 +1,6 @@
 use std::cell::{Ref, RefCell};
 use std::fmt::{self, Debug, Formatter};
 use std::io::{self, ErrorKind, Read, Seek, SeekFrom};
-#[cfg(feature = "nightly")]
-use std::io::{Initializer, IoSliceMut};
 use std::rc::Rc;
 
 pub struct RcRefCellU8Reader<T: AsRef<[u8]> + ?Sized> {
@@ -50,26 +48,6 @@ impl<T: AsRef<[u8]> + ?Sized> Read for RcRefCellU8Reader<T> {
         self.pos += len;
 
         Ok(len)
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> io::Result<usize> {
-        let mut nread = 0;
-        for buf in bufs {
-            let n = self.read(buf)?;
-            nread += n;
-            if n < buf.len() {
-                break;
-            }
-        }
-        Ok(nread)
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    unsafe fn initializer(&self) -> Initializer {
-        Initializer::nop()
     }
 }
 
@@ -128,24 +106,5 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for RcRefCellU8Reader<T> {
                 ))
             }
         }
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    fn stream_len(&mut self) -> Result<u64, io::Error> {
-        let data_len = {
-            let data: Ref<T> = (*self.data).borrow();
-            let data: &[u8] = &data.as_ref()[self.pos..];
-
-            data.len()
-        };
-
-        Ok(data_len as u64)
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    fn stream_position(&mut self) -> Result<u64, io::Error> {
-        Ok(self.pos as u64)
     }
 }

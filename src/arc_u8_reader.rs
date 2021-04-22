@@ -1,8 +1,6 @@
 use std::cmp;
 use std::fmt::{self, Debug, Formatter};
 use std::io::{self, BufRead, ErrorKind, Read, Seek, SeekFrom};
-#[cfg(feature = "nightly")]
-use std::io::{Initializer, IoSliceMut};
 use std::sync::Arc;
 
 pub struct ArcU8Reader<T: AsRef<[u8]> + ?Sized> {
@@ -51,26 +49,6 @@ impl<T: AsRef<[u8]> + ?Sized> Read for ArcU8Reader<T> {
         self.pos += n;
 
         Ok(n)
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) -> io::Result<usize> {
-        let mut nread = 0;
-        for buf in bufs {
-            let n = self.read(buf)?;
-            nread += n;
-            if n < buf.len() {
-                break;
-            }
-        }
-        Ok(nread)
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    unsafe fn initializer(&self) -> Initializer {
-        Initializer::nop()
     }
 
     #[inline]
@@ -130,17 +108,5 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for ArcU8Reader<T> {
                 ))
             }
         }
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    fn stream_len(&mut self) -> Result<u64, io::Error> {
-        Ok((*self.data).as_ref().len() as u64)
-    }
-
-    #[cfg(feature = "nightly")]
-    #[inline]
-    fn stream_position(&mut self) -> Result<u64, io::Error> {
-        Ok(self.pos as u64)
     }
 }
