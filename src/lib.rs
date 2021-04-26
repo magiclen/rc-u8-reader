@@ -96,6 +96,9 @@ assert_eq!("Hello world!".to_string(), result);
 #[macro_use]
 extern crate debug_helper;
 
+#[cfg(feature = "tokio")]
+extern crate tokio;
+
 mod rc_refcell_u8_reader;
 mod rc_u8_reader;
 

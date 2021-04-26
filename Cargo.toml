@@ -1,6 +1,6 @@
 [package]
 name = "rc-u8-reader"
-version = "2.0.13"
+version = "2.0.14"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/rc-u8-reader"
@@ -14,3 +14,4 @@ include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
 
 [dependencies]
 debug-helper = "0.3"
+tokio = { version = "1", optional = true }

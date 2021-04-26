@@ -3,6 +3,15 @@ use std::fmt::{self, Debug, Formatter};
 use std::io::{self, BufRead, ErrorKind, Read, Seek, SeekFrom};
 use std::sync::Arc;
 
+#[cfg(feature = "tokio")]
+use std::pin::Pin;
+
+#[cfg(feature = "tokio")]
+use std::task::{Context, Poll};
+
+#[cfg(feature = "tokio")]
+use crate::tokio::io::{AsyncRead, AsyncSeek, ReadBuf};
+
 pub struct ArcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Arc<T>,
     pos: usize,
@@ -108,5 +117,41 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for ArcU8Reader<T> {
                 ))
             }
         }
+    }
+}
+
+#[cfg(feature = "tokio")]
+impl<T: AsRef<[u8]> + ?Sized> AsyncRead for ArcU8Reader<T> {
+    fn poll_read(
+        mut self: Pin<&mut Self>,
+        _: &mut Context<'_>,
+        buf: &mut ReadBuf<'_>,
+    ) -> Poll<Result<(), io::Error>> {
+        let data = (*self.data).as_ref();
+
+        let amt = cmp::min(self.pos, data.len());
+
+        let data = &data[amt..];
+
+        let read_size = cmp::min(data.len(), buf.remaining());
+
+        buf.put_slice(&data[..read_size]);
+
+        self.pos += read_size;
+
+        Poll::Ready(Ok(()))
+    }
+}
+
+#[cfg(feature = "tokio")]
+impl<T: AsRef<[u8]> + ?Sized> AsyncSeek for ArcU8Reader<T> {
+    #[inline]
+    fn start_seek(mut self: Pin<&mut Self>, pos: SeekFrom) -> Result<(), io::Error> {
+        Seek::seek(&mut *self, pos).map(drop)
+    }
+
+    #[inline]
+    fn poll_complete(self: Pin<&mut Self>, _: &mut Context<'_>) -> Poll<io::Result<u64>> {
+        Poll::Ready(Ok(self.pos as u64))
     }
 }
