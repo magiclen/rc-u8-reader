@@ -10,7 +10,7 @@ use std::pin::Pin;
 use std::task::{Context, Poll};
 
 #[cfg(feature = "tokio")]
-use crate::tokio::io::{AsyncRead, AsyncSeek, ReadBuf};
+use tokio::io::{AsyncRead, AsyncSeek, ReadBuf};
 
 pub struct ArcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Arc<T>,
@@ -20,7 +20,7 @@ pub struct ArcU8Reader<T: AsRef<[u8]> + ?Sized> {
 impl<T: AsRef<[u8]> + ?Sized> Debug for ArcU8Reader<T> {
     #[inline]
     fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
-        impl_debug_for_struct!(ArcU8Reader, f, self, let .data = self.data.as_ref().as_ref(), .pos);
+        debug_helper::impl_debug_for_struct!(ArcU8Reader, f, self, let .data = self.data.as_ref().as_ref(), .pos);
     }
 }
 

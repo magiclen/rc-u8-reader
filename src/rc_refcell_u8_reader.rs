@@ -11,7 +11,7 @@ pub struct RcRefCellU8Reader<T: AsRef<[u8]> + ?Sized> {
 impl<T: AsRef<[u8]> + ?Sized> Debug for RcRefCellU8Reader<T> {
     #[inline]
     fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
-        impl_debug_for_struct!(RcRefCellU8Reader, f, self, let .data = self.data.as_ref().borrow().as_ref(), .pos);
+        debug_helper::impl_debug_for_struct!(RcRefCellU8Reader, f, self, let .data = self.data.as_ref().borrow().as_ref(), .pos);
     }
 }
 

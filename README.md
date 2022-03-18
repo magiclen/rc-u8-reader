@@ -10,8 +10,6 @@ A tiny implement for reading `u8` data from a reference counted instance.
 ### RcU8Reader
 
 ```rust
-extern crate rc_u8_reader;
-
 use std::rc::Rc;
 use std::io::Read;
 
@@ -31,8 +29,6 @@ assert_eq!("Hello world!".to_string(), result);
 ### RcRefCellU8Reader
 
 ```rust
-extern crate rc_u8_reader;
-
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::io::Read;
@@ -53,8 +49,6 @@ assert_eq!("Hello world!".to_string(), result);
 ### ArcU8Reader
 
 ```rust
-extern crate rc_u8_reader;
-
 use std::sync::Arc;
 use std::io::Read;
 
@@ -74,8 +68,6 @@ assert_eq!("Hello world!".to_string(), result);
 ### ArcMutexU8Reader
 
 ```rust
-extern crate rc_u8_reader;
-
 use std::sync::{Arc, Mutex};
 use std::io::Read;
 
