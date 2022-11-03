@@ -76,8 +76,8 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for ArcU8Reader<T> {
     fn seek(&mut self, style: SeekFrom) -> Result<u64, io::Error> {
         let (base_pos, offset) = match style {
             SeekFrom::Start(n) => {
-                let n = if n > usize::max_value() as u64 {
-                    usize::max_value()
+                let n = if n > usize::MAX as u64 {
+                    usize::MAX
                 } else {
                     n as usize
                 };
@@ -90,10 +90,10 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for ArcU8Reader<T> {
             SeekFrom::Current(n) => (self.pos, n),
         };
 
-        let offset = if offset > isize::max_value() as i64 {
-            isize::max_value()
-        } else if offset < isize::min_value() as i64 {
-            isize::min_value()
+        let offset = if offset > isize::MAX as i64 {
+            isize::MAX
+        } else if offset < isize::MIN as i64 {
+            isize::MIN
         } else {
             offset as isize
         };

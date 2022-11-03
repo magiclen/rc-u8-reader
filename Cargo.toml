@@ -1,6 +1,6 @@
 [package]
 name = "rc-u8-reader"
-version = "2.0.15"
+version = "2.0.16"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2021"
 repository = "https://github.com/magiclen/rc-u8-reader"
