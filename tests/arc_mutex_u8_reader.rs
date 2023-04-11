@@ -1,5 +1,7 @@
-use std::io::Read;
-use std::sync::{Arc, Mutex};
+use std::{
+    io::Read,
+    sync::{Arc, Mutex},
+};
 
 use rc_u8_reader::ArcMutexU8Reader;
 

@@ -1,11 +1,13 @@
-use std::cmp;
-use std::fmt::{self, Debug, Formatter};
-use std::io::{self, BufRead, ErrorKind, Read, Seek, SeekFrom};
-use std::rc::Rc;
+use std::{
+    cmp,
+    fmt::{self, Debug, Formatter},
+    io::{self, BufRead, ErrorKind, Read, Seek, SeekFrom},
+    rc::Rc,
+};
 
 pub struct RcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Rc<T>,
-    pos: usize,
+    pos:  usize,
 }
 
 impl<T: AsRef<[u8]> + ?Sized> Debug for RcU8Reader<T> {
@@ -67,16 +69,12 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for RcU8Reader<T> {
     fn seek(&mut self, style: SeekFrom) -> Result<u64, io::Error> {
         let (base_pos, offset) = match style {
             SeekFrom::Start(n) => {
-                let n = if n > usize::MAX as u64 {
-                    usize::MAX
-                } else {
-                    n as usize
-                };
+                let n = if n > usize::MAX as u64 { usize::MAX } else { n as usize };
 
                 self.pos = n;
 
                 return Ok(n as u64);
-            }
+            },
             SeekFrom::End(n) => ((*self.data).as_ref().len(), n),
             SeekFrom::Current(n) => (self.pos, n),
         };
@@ -100,13 +98,11 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for RcU8Reader<T> {
                 self.pos = n;
 
                 Ok(self.pos as u64)
-            }
-            None => {
-                Err(io::Error::new(
-                    ErrorKind::InvalidInput,
-                    "invalid seek to a negative or overflowing position",
-                ))
-            }
+            },
+            None => Err(io::Error::new(
+                ErrorKind::InvalidInput,
+                "invalid seek to a negative or overflowing position",
+            )),
         }
     }
 }

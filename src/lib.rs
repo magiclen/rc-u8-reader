@@ -91,8 +91,8 @@ mod rc_u8_reader;
 mod arc_mutex_u8_reader;
 mod arc_u8_reader;
 
-pub use self::rc_u8_reader::RcU8Reader;
-pub use rc_refcell_u8_reader::RcRefCellU8Reader;
-
 pub use arc_mutex_u8_reader::ArcMutexU8Reader;
 pub use arc_u8_reader::ArcU8Reader;
+pub use rc_refcell_u8_reader::RcRefCellU8Reader;
+
+pub use self::rc_u8_reader::RcU8Reader;

@@ -1,20 +1,20 @@
-use std::cmp;
-use std::fmt::{self, Debug, Formatter};
-use std::io::{self, BufRead, ErrorKind, Read, Seek, SeekFrom};
-use std::sync::Arc;
-
 #[cfg(feature = "tokio")]
 use std::pin::Pin;
-
 #[cfg(feature = "tokio")]
 use std::task::{Context, Poll};
+use std::{
+    cmp,
+    fmt::{self, Debug, Formatter},
+    io::{self, BufRead, ErrorKind, Read, Seek, SeekFrom},
+    sync::Arc,
+};
 
 #[cfg(feature = "tokio")]
 use tokio::io::{AsyncRead, AsyncSeek, ReadBuf};
 
 pub struct ArcU8Reader<T: AsRef<[u8]> + ?Sized> {
     data: Arc<T>,
-    pos: usize,
+    pos:  usize,
 }
 
 impl<T: AsRef<[u8]> + ?Sized> Debug for ArcU8Reader<T> {
@@ -76,16 +76,12 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for ArcU8Reader<T> {
     fn seek(&mut self, style: SeekFrom) -> Result<u64, io::Error> {
         let (base_pos, offset) = match style {
             SeekFrom::Start(n) => {
-                let n = if n > usize::MAX as u64 {
-                    usize::MAX
-                } else {
-                    n as usize
-                };
+                let n = if n > usize::MAX as u64 { usize::MAX } else { n as usize };
 
                 self.pos = n;
 
                 return Ok(n as u64);
-            }
+            },
             SeekFrom::End(n) => ((*self.data).as_ref().len(), n),
             SeekFrom::Current(n) => (self.pos, n),
         };
@@ -109,13 +105,11 @@ impl<T: AsRef<[u8]> + ?Sized> Seek for ArcU8Reader<T> {
                 self.pos = n;
 
                 Ok(self.pos as u64)
-            }
-            None => {
-                Err(io::Error::new(
-                    ErrorKind::InvalidInput,
-                    "invalid seek to a negative or overflowing position",
-                ))
-            }
+            },
+            None => Err(io::Error::new(
+                ErrorKind::InvalidInput,
+                "invalid seek to a negative or overflowing position",
+            )),
         }
     }
 }

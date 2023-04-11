@@ -1,5 +1,4 @@
-use std::io::Read;
-use std::rc::Rc;
+use std::{io::Read, rc::Rc};
 
 use rc_u8_reader::RcU8Reader;
 

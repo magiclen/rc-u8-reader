@@ -1,6 +1,4 @@
-use std::cell::RefCell;
-use std::io::Read;
-use std::rc::Rc;
+use std::{cell::RefCell, io::Read, rc::Rc};
 
 use rc_u8_reader::RcRefCellU8Reader;
 
