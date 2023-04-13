@@ -9,7 +9,6 @@ homepage = "https://magiclen.org/rc-u8-reader"
 keywords = ["rc", "arc", "in-memory", "read", "u8"]
 categories = ["data-structures"]
 description = "A tiny implement for reading `u8` data from a reference counted instance."
-readme = "README.md"
 license = "MIT"
 include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
 
