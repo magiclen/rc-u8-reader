@@ -3,6 +3,10 @@ Rc U8 Reader
 
 [![CI](https://github.com/magiclen/rc-u8-reader/actions/workflows/ci.yml/badge.svg)](https://github.com/magiclen/rc-u8-reader/actions/workflows/ci.yml)
 
+This crate was deprecated.
+
+-----
+
 A tiny implement for reading `u8` data from a reference counted instance.
 
 ## Examples
